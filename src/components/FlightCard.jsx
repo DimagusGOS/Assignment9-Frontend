@@ -4,6 +4,7 @@ export default function FlightCard({ flight }) {
             <p><strong>{flight.airline}</strong></p>
             <p>From: {flight.from} → To: {flight.to}</p>
             <p>Price: ${flight.price}</p>
+            <button>Book Now!</button>
         </div>
     );
 }

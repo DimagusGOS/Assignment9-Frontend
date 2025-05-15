@@ -5,11 +5,16 @@ export default function SearchForm() {
     const[from, setFrom] = useState('');
     const[to, setTo] = useState('');
     const navigate = useNavigate();
+    const [msg] = useState('');
 
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        navigate(`/results?from=${from}&to=${to}`);
+        if (from == '' && to == '') {
+            
+        }else {
+            navigate(`/results?from=${from}&to=${to}`);
+        }
     };
 
     return (

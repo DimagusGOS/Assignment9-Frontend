@@ -1,6 +1,8 @@
 import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import FlightList from '../components/FlightList';
+import NoResults from './NoResults';
+import Spinner from 'react-bootstrap/Spinner';
 
 export default function Results() {
     const [searchParams] = useSearchParams();
@@ -31,16 +33,26 @@ export default function Results() {
                 }
 
                 setFlights(results);
-                setIsLoading(false);
+                setTimeout(() => setIsLoading(true), 1000);
+
             });
     }, [from, to]);
-    if (isLoading) return <p>Loading flights...</p>;
-    if (flights.length === 0) return <p>No flights found from {from.toUpperCase()} to {to.toUpperCase()}.</p>;
-    return (
+    if (isLoading) return (
         <div>
-            
-            <h2>Flights from {from} to {to}</h2>
-            <FlightList flights={flights} />
+            <Spinner animation="border" color='white'>
+                <span className="visually-hidden">Loading Flights...</span>
+            </Spinner>
         </div>
-    );
+    )
+    if (flights.length === 0) {
+        return <NoResults from={from} to={to} />;
+    } else {
+        return (
+            <div>
+                <h2>Flights from {from} to {to}</h2>
+                <FlightList flights={flights} />
+            </div>
+        );
+    }
+   
 }
