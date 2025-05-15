@@ -1,5 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import FlightList from '../components/FlightList';
+
 export default function Results() {
     const [searchParams] = useSearchParams();
     const from = searchParams.get('from');
@@ -27,7 +29,7 @@ export default function Results() {
                             flight.to.toLowerCase() === to.toLowerCase()
                     );
                 }
-                
+
                 setFlights(results);
                 setIsLoading(false);
             });
@@ -36,14 +38,9 @@ export default function Results() {
     if (flights.length === 0) return <p>No flights found from {from.toUpperCase()} to {to.toUpperCase()}.</p>;
     return (
         <div>
-            <h2>Flights from {from.toUpperCase()} to {to.toUpperCase()}</h2>
-            <ul>
-                {flights.map((flight) => (
-                    <li key={flight.id}>
-                        {flight.airline} - ${flight.price}
-                    </li>
-                ))}
-            </ul>
+            
+            <h2>Flights from {from} to {to}</h2>
+            <FlightList flights={flights} />
         </div>
     );
 }
