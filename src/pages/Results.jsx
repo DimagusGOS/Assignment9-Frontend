@@ -33,7 +33,7 @@ export default function Results() {
                 }
 
                 setFlights(results);
-                setTimeout(() => setIsLoading(true), 1000);
+                setTimeout(() => setIsLoading(false), 1000);
 
             });
     }, [from, to]);
