@@ -49,8 +49,9 @@ export default function Results() {
     } else {
         return (
             <div>
-                <h2>Flights from {from} to {to}</h2>
+                <h2>Flights from {from.toUpperCase()} to {to.toUpperCase()}</h2>
                 <FlightList flights={flights} />
+                <a href="/"><button>Go Back</button></a>
             </div>
         );
     }
