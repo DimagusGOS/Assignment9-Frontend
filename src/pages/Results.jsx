@@ -51,7 +51,7 @@ export default function Results() {
             <div>
                 <h2>Flights from {from.toUpperCase()} to {to.toUpperCase()}</h2>
                 <FlightList flights={flights} />
-                <a href="/"><button>Go Back</button></a>
+                <a href="/"><button>Search for Other Flights</button></a>
             </div>
         );
     }
