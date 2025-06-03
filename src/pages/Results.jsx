@@ -11,21 +11,21 @@ export default function Results() {
     const [flights, setFlights] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
-        fetch('/src/data/flights.json')
+        fetch(`http://localhost:4000/flights?from=${from}&to=${to}`)
             .then((res) => res.json())
             .then((data) => {
                 if (to == '') {
-                    var results = data.filter(
+                    var results = data.data.filter(
                         (flight) =>
                             flight.from.toLowerCase() === from.toLowerCase()
                     );
                 } else if (from == '') {
-                    var results = data.filter(
+                    var results = data.data.filter(
                         (flight) =>
                             flight.to.toLowerCase() === to.toLowerCase()
                     );
                 } else {
-                    var results = data.filter(
+                    var results = data.data.filter(
                         (flight) =>
                             flight.from.toLowerCase() === from.toLowerCase() &&
                             flight.to.toLowerCase() === to.toLowerCase()
