@@ -9,14 +9,16 @@ function Signup({onAuth, setMessage}) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const res = await fetch('http://localhost:4000/api/auth/signup', {
+        const api = import.meta.env.VITE_API_URL;
+        const res = await fetch(`${api}/api/auth/signup`, {
+            credentials: 'include',
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, email, password }),
         });
         const data = await res.json();
         if (res.ok) {
-            onAuth(data.token);
+            //onAuth(data.user);
             setMessage('Signup successful!');
             navigate('/');
         } else {

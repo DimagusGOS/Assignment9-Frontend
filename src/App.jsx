@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {Routes, Route, Navigate} from 'react-router-dom';
 import Home from './pages/Home';
 import Results from './pages/Results';
@@ -13,25 +13,40 @@ import FlightDetail from './pages/FlightDetail';
 
 function App() {
 
-  const [token, setToken] =
-  useState(localStorage.getItem('token') || '');
+  // const [token, setToken] = useState(localStorage.getItem('token') || '');
+  const [user, setUser] = useState(null); // user state tracking
   const [message, setMessage] = useState('');
+  const api = import.meta.env.VITE_API_URL;
 
-  const handleLogin = (newToken) => {
-    localStorage.setItem('token', newToken);
-    setToken(newToken);
+  useEffect(() => {
+    fetch(`${api}/api/auth/me`, {
+      credentials: 'include'
+    })
+    .then(res => res.ok ? res.json() : null)
+    .then(data => setUser(data));
+  }, []); 
+
+  const handleLogin = (user) => {
+    // localStorage.setItem('token', newToken);
+    // setToken(newToken);
+    setUser(user); // Update user state
     setMessage('Logged in successfully.');
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    setToken('');
+  const handleLogout = async () => {
+    // localStorage.removeItem('token');
+    // setToken('');
+    await fetch(`${api}/api/auth/logout`, {
+      method: 'POST',
+      credentials: 'include'
+    });
+    setUser(null);
     setMessage('Logged out');
   };
 
   return (
     <>
-      <Navbar token={token} onLogout={handleLogout}/>
+      <Navbar token={user} onLogout={handleLogout}/>
 
       {message && (
         <div>
@@ -44,8 +59,8 @@ function App() {
         <Route path='/login' element={<Login onAuth={handleLogin} setMessage={setMessage} />} />
         <Route path="/" element={<Home />} />
         <Route path="/results" element={<Results />} />
-        <Route path="/flights/:id" element={token ? <FlightDetail token={token} /> : <Navigate to="/login" />} />
-        <Route path="/profile" element={token ? <Profile token={token} /> : <Navigate to="/login"/> }/>
+        <Route path="/flights/:id" element={user ? <FlightDetail token={user} /> : <Navigate to="/login" />} />
+        <Route path="/profile" element={user ? <Profile token={user} /> : <Navigate to="/login"/> }/>
       </Routes>
     </>
 

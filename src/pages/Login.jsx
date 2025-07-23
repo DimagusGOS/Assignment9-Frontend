@@ -9,7 +9,10 @@ function Login({onAuth, setMessage}) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const res = await fetch('http://localhost:4000/api/auth/login', {
+        const api = import.meta.env.VITE_API_URL;
+
+        const res = await fetch(`${api}/api/auth/login`, {
+            credentials: 'include',
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({username, password})
@@ -17,7 +20,9 @@ function Login({onAuth, setMessage}) {
         
         const data = await res.json();
         if(res.ok){
-            onAuth(data.token);
+            // console.log(data);
+            // console.log(data.user);
+            onAuth(data.user);
             setMessage('Login successful');
             navigate('/');
         } else {
