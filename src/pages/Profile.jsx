@@ -5,7 +5,7 @@ function Profile({}) {
 
     useEffect(() => {
         const api = import.meta.env.VITE_API_URL;
-        fetch(`${api}/api/auth/profile`, {
+        fetch(`${api}/api/auth/me`, {
             credentials: 'include',
             // headers: {
             //     Authorization: `Bearer ${token}`
@@ -16,7 +16,7 @@ function Profile({}) {
             setUser(data);
             // console.log(data);
         });
-    }, [token]);
+    }, []);
 
     if (!user)
         return <p>Loading profile...</p>
